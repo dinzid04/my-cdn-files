@@ -11,29 +11,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const customCodeInput = document.getElementById('custom-code');
     const shortUrlResult = document.getElementById('shorturl-result');
 
-    function toggleSection(sectionToToggle, buttonToActivate) {
-        const allSections = [cdnSection, shortUrlSection];
-        const allButtons = [cdnBtn, shortUrlBtn];
-        const isOpening = !sectionToToggle.classList.contains('show');
-
-        allButtons.forEach(btn => btn.classList.remove('active'));
-        allSections.forEach(sec => sec.classList.remove('show'));
-
-        if (isOpening) {
-            sectionToToggle.classList.add('show');
-            buttonToActivate.classList.add('active');
+    function switchTab(tab) {
+        if (tab === 'cdn') {
+            cdnSection.classList.remove('hidden');
+            shortUrlSection.classList.add('hidden');
+            cdnBtn.classList.add('border-blue-500', 'text-blue-600');
+            cdnBtn.classList.remove('border-transparent');
+            shortUrlBtn.classList.remove('border-blue-500', 'text-blue-600');
+            shortUrlBtn.classList.add('border-transparent');
+        } else {
+            shortUrlSection.classList.remove('hidden');
+            cdnSection.classList.add('hidden');
+            shortUrlBtn.classList.add('border-blue-500', 'text-blue-600');
+            shortUrlBtn.classList.remove('border-transparent');
+            cdnBtn.classList.remove('border-blue-500', 'text-blue-600');
+            cdnBtn.classList.add('border-transparent');
         }
     }
 
-    cdnBtn.addEventListener('click', () => toggleSection(cdnSection, cdnBtn));
-    shortUrlBtn.addEventListener('click', () => toggleSection(shortUrlSection, shortUrlBtn));
+    cdnBtn.addEventListener('click', () => switchTab('cdn'));
+    shortUrlBtn.addEventListener('click', () => switchTab('shorturl'));
+
+    // Initialize the default tab
+    switchTab('cdn');
 
     dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-blue-500'));
     dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
-        dropZone.classList.remove('dragover');
+        dropZone.classList.remove('border-blue-500');
         if (e.dataTransfer.files.length) handleFileUpload(e.dataTransfer.files[0]);
     });
     fileInput.addEventListener('change', () => {
@@ -41,29 +48,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showLoading(element) {
-        element.innerHTML = '<div class="loader"></div>';
-        element.classList.add('visible');
+        element.innerHTML = `
+            <div class="flex items-center justify-center p-4">
+                <i class="fas fa-spinner fa-spin text-2xl text-gray-500"></i>
+            </div>
+        `;
     }
-    
+
     function showResult(element, text, isUrl = true) {
-        const svgIcon = `<div class="copy-icon"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 3H14.6C16.8402 3 17.9603 3 18.816 3.43597C19.5686 3.81947 20.1805 4.43139 20.564 5.18404C21 6.03969 21 7.15979 21 9.4V16.5M6.2 21H14.3C15.4201 21 15.9802 21 16.408 20.782C16.7843 20.5903 17.0903 20.2843 17.282 19.908C17.5 19.4802 17.5 18.9201 17.5 17.8V9.7C17.5 8.57989 17.5 8.01984 17.282 7.59202C17.0903 7.21569 16.7843 6.90973 16.408 6.71799C15.9802 6.5 15.4201 6.5 14.3 6.5H6.2C5.0799 6.5 4.51984 6.5 4.09202 6.71799C3.71569 6.90973 3.40973 7.21569 3.21799 7.59202C3 8.01984 3 8.57989 3 9.7V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.0799 21 6.2 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
+        const icon = isUrl ? '<i class="fas fa-copy"></i>' : '<i class="fas fa-exclamation-circle text-red-500"></i>';
+        const textColor = isUrl ? 'text-blue-600' : 'text-red-600';
         
-        const textElement = isUrl 
-            ? `<a href="${text}" target="_blank" rel="noopener noreferrer" class="result-url">${text}</a>` 
-            : `<span>${text}</span>`;
-            
-        element.innerHTML = `<div class="result-area-content">${textElement}${svgIcon}</div>`;
-        element.classList.add('visible');
-        
-        const content = element.querySelector('.result-area-content');
-        if (isUrl && content) {
-            content.onclick = (e) => {
-                if (e.target.tagName === 'A') return;
-                if (content.classList.contains('copied')) return;
+        element.innerHTML = `
+            <div class="result-area-content flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+                <a href="${isUrl ? text : '#'}" target="_blank" rel="noopener noreferrer" class="truncate ${textColor} font-mono">${text}</a>
+                <button class="copy-btn p-2 rounded-md hover:bg-gray-200">${icon}</button>
+            </div>
+        `;
+
+        const copyBtn = element.querySelector('.copy-btn');
+        if (isUrl && copyBtn) {
+            copyBtn.addEventListener('click', () => {
                 navigator.clipboard.writeText(text);
-                content.classList.add('copied');
-                setTimeout(() => content.classList.remove('copied'), 1500);
-            };
+                copyBtn.innerHTML = '<i class="fas fa-check text-green-500"></i>';
+                setTimeout(() => {
+                    copyBtn.innerHTML = icon;
+                }, 2000);
+            });
         }
     }
 

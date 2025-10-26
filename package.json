@@ -13,5 +13,9 @@
     "express": "^4.19.2",
     "formidable": "^3.5.1",
     "serverless-http": "^4.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "tailwindcss": "^4.1.16"
   }
 }
