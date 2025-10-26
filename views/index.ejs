@@ -12,10 +12,17 @@
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
         }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-lg mx-auto p-4">
+    <div class="w-full max-w-lg mx-auto p-4 animate-fade-in">
         <!-- Profile Card -->
         <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
             <div class="h-48 bg-cover bg-center" style="background-image: url('<%= config.profileBanner %>');"></div>
@@ -28,7 +35,7 @@
                     </div>
                 </div>
                 <p class="mt-4 text-gray-700"><%= config.aboutText %></p>
-                <a href="https://github.com/alip-jmbd/NefuSite.git" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900">
+                <a href="https://github.com/alip-jmbd/NefuSite.git" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors">
                     <i class="fab fa-github mr-2"></i> GitHub
                 </a>
             </div>
@@ -36,10 +43,10 @@
 
         <!-- Tool Selection Tabs -->
         <div class="flex border-b border-gray-200">
-            <button id="cdnBtn" class="flex-1 py-3 text-center text-gray-700 font-medium border-b-2 border-transparent hover:bg-gray-100 focus:outline-none active">
+            <button id="cdnBtn" class="flex-1 py-3 text-center text-gray-700 font-medium border-b-2 border-transparent hover:bg-gray-100 focus:outline-none transition-all">
                 <i class="fas fa-cloud-upload-alt mr-2"></i> CDN
             </button>
-            <button id="shortUrlBtn" class="flex-1 py-3 text-center text-gray-700 font-medium border-b-2 border-transparent hover:bg-gray-100 focus:outline-none">
+            <button id="shortUrlBtn" class="flex-1 py-3 text-center text-gray-700 font-medium border-b-2 border-transparent hover:bg-gray-100 focus:outline-none transition-all">
                 <i class="fas fa-link mr-2"></i> ShortURL
             </button>
         </div>
@@ -47,7 +54,7 @@
         <!-- CDN Section -->
         <div id="cdn-section" class="tool-section bg-white rounded-lg shadow-lg p-6 mt-[-1px]">
             <p class="text-center text-gray-600 mb-4">Upload files to our lightning-fast CDN.</p>
-            <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-10 text-center cursor-pointer hover:border-blue-500 bg-gray-50">
+            <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-10 text-center cursor-pointer hover:border-blue-500 bg-gray-50 transition-colors">
                 <i class="fas fa-upload text-4xl text-gray-400"></i>
                 <p class="mt-2 text-gray-600">Drag & drop a file here or click to select</p>
                 <input type="file" id="file-input" class="hidden">
@@ -59,13 +66,46 @@
         <div id="shorturl-section" class="tool-section bg-white rounded-lg shadow-lg p-6 mt-[-1px] hidden">
             <p class="text-center text-gray-600 mb-4">Create short, shareable links in seconds.</p>
             <div class="space-y-4">
-                <input type="text" id="long-url" placeholder="Enter long URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <input type="text" id="custom-code" placeholder="Custom code (optional)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button id="shorten-btn" class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">Shorten</button>
+                <input type="text" id="long-url" placeholder="Enter long URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                <input type="text" id="custom-code" placeholder="Custom code (optional)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                <button id="shorten-btn" class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition-colors">Shorten</button>
             </div>
             <div id="shorturl-result" class="mt-4"></div>
         </div>
+
+        <!-- History Section -->
+        <div id="history-section" class="mt-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center justify-between">
+                <span>Recent History</span>
+                <button id="tutorial-btn" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-question-circle text-gray-500"></i>
+                </button>
+            </h2>
+            <div id="history-container" class="space-y-3">
+                <!-- History items will be injected here by JavaScript -->
+            </div>
+        </div>
     </div>
+
+    <!-- Tutorial Modal -->
+    <div id="tutorial-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full animate-fade-in">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-gray-800">How to Use</h2>
+                <button id="close-modal-btn" class="p-2 rounded-full hover:bg-gray-200">
+                    <i class="fas fa-times text-gray-600"></i>
+                </button>
+            </div>
+            <div>
+                <h3 class="font-semibold text-lg mb-2">CDN (Content Delivery Network)</h3>
+                <p class="text-gray-700 mb-4">1. Click on the "CDN" tab.<br>2. Drag and drop a file into the box, or click to select a file from your device.<br>3. The file will be uploaded, and a shareable link will be generated automatically.</p>
+
+                <h3 class="font-semibold text-lg mb-2">ShortURL</h3>
+                <p class="text-gray-700">1. Click on the "ShortURL" tab.<br>2. Paste your long URL into the first input field.<br>3. (Optional) You can enter a custom code for your short link in the second field.<br>4. Click "Shorten" to generate your short link.</p>
+            </div>
+        </div>
+    </div>
+
     <script src="/script.js"></script>
 </body>
 </html>
