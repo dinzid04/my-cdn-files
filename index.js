@@ -104,6 +104,10 @@ app.get('/:code', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running at ${APP_DOMAIN}`);
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server running at ${APP_DOMAIN}`);
+  });
+}
+
+module.exports = app;
