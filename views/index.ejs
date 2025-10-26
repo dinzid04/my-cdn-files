@@ -19,42 +19,57 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .hard-shadow {
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.75);
+            border: 3px solid #000;
+        }
+        .button-2d {
+            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+        }
+        .button-2d:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.75);
+        }
+        .button-2d:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.75);
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="w-full max-w-lg mx-auto p-4 animate-fade-in">
         <!-- Profile Card -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
-            <div class="h-48 bg-cover bg-center" style="background-image: url('<%= config.profileBanner %>');"></div>
+        <div class="bg-white rounded-lg overflow-hidden mb-6 hard-shadow">
+            <div class="h-48 bg-cover bg-center border-b-3 border-black" style="background-image: url('<%= config.profileBanner %>');"></div>
             <div class="p-6">
                 <div class="flex items-center space-x-4">
-                    <img class="w-24 h-24 rounded-full border-4 border-white -mt-16" src="<%= config.profilePicture %>" alt="Profile Picture">
+                    <img class="w-24 h-24 rounded-full border-4 border-black -mt-16" src="<%= config.profilePicture %>" alt="Profile Picture">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-800"><%= config.siteName %></h1>
                         <p class="text-gray-600"><%= config.authorName %></p>
                     </div>
                 </div>
                 <p class="mt-4 text-gray-700"><%= config.aboutText %></p>
-                <a href="https://github.com/alip-jmbd/NefuSite.git" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors">
-                    <i class="fab fa-github mr-2"></i> GitHub
+                <a href="https://www.youtube.com/@DinzID" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                    <i class="fab fa-youtube mr-2"></i> YouTube
                 </a>
             </div>
         </div>
 
         <!-- Tool Selection Tabs -->
-        <div class="flex border-b border-gray-200">
-            <button id="cdnBtn" class="flex-1 py-3 text-center text-gray-700 font-medium border-b-2 border-transparent hover:bg-gray-100 focus:outline-none transition-all">
+        <div class="flex">
+            <button id="cdnBtn" class="flex-1 py-3 text-center text-gray-700 font-medium focus:outline-none transition-all rounded-t-lg border-b-3 border-black">
                 <i class="fas fa-cloud-upload-alt mr-2"></i> CDN
             </button>
-            <button id="shortUrlBtn" class="flex-1 py-3 text-center text-gray-700 font-medium border-b-2 border-transparent hover:bg-gray-100 focus:outline-none transition-all">
+            <button id="shortUrlBtn" class="flex-1 py-3 text-center text-gray-700 font-medium focus:outline-none transition-all rounded-t-lg">
                 <i class="fas fa-link mr-2"></i> ShortURL
             </button>
         </div>
 
         <!-- CDN Section -->
-        <div id="cdn-section" class="tool-section bg-white rounded-lg shadow-lg p-6 mt-[-1px]">
+        <div id="cdn-section" class="tool-section bg-white rounded-lg p-6 hard-shadow">
             <p class="text-center text-gray-600 mb-4">Upload files to our lightning-fast CDN.</p>
-            <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-10 text-center cursor-pointer hover:border-blue-500 bg-gray-50 transition-colors">
+            <div id="drop-zone" class="border-3 border-dashed border-black rounded-lg p-10 text-center cursor-pointer hover:bg-gray-200 bg-gray-100 transition-colors">
                 <i class="fas fa-upload text-4xl text-gray-400"></i>
                 <p class="mt-2 text-gray-600">Drag & drop a file here or click to select</p>
                 <input type="file" id="file-input" class="hidden">
@@ -63,18 +78,18 @@
         </div>
 
         <!-- ShortURL Section -->
-        <div id="shorturl-section" class="tool-section bg-white rounded-lg shadow-lg p-6 mt-[-1px] hidden">
+        <div id="shorturl-section" class="tool-section bg-white rounded-lg p-6 hidden hard-shadow">
             <p class="text-center text-gray-600 mb-4">Create short, shareable links in seconds.</p>
             <div class="space-y-4">
-                <input type="text" id="long-url" placeholder="Enter long URL" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
-                <input type="text" id="custom-code" placeholder="Custom code (optional)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
-                <button id="shorten-btn" class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition-colors">Shorten</button>
+                <input type="text" id="long-url" placeholder="Enter long URL" class="w-full px-4 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                <input type="text" id="custom-code" placeholder="Custom code (optional)" class="w-full px-4 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                <button id="shorten-btn" class="w-full py-2 bg-blue-600 text-white rounded-lg font-semibold button-2d hard-shadow">Shorten</button>
             </div>
             <div id="shorturl-result" class="mt-4"></div>
         </div>
 
         <!-- History Section -->
-        <div id="history-section" class="mt-6">
+        <div id="history-section" class="mt-8">
             <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center justify-between">
                 <span>Recent History</span>
                 <button id="tutorial-btn" class="p-2 rounded-full hover:bg-gray-200 transition-colors">

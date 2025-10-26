@@ -26,12 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeButton = tab === 'cdn' ? cdnBtn : shortUrlBtn;
 
         buttons.forEach(button => {
-            button.classList.remove('border-blue-500', 'text-blue-600');
-            button.classList.add('border-transparent');
+            button.classList.remove('bg-white', 'border-b-3', 'border-black');
+            button.classList.add('bg-gray-200');
         });
 
-        activeButton.classList.add('border-blue-500', 'text-blue-600');
-        activeButton.classList.remove('border-transparent');
+        activeButton.classList.add('bg-white', 'border-b-3', 'border-black');
+        activeButton.classList.remove('bg-gray-200');
 
         sections.forEach(section => {
             if (section !== activeSection) {
