@@ -120,7 +120,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const path = e.currentTarget.previousElementSibling.textContent;
             const fullUrl = `${window.location.origin}${path}`;
             navigator.clipboard.writeText(fullUrl);
+            
+            const originalTooltip = e.currentTarget.title;
+            e.currentTarget.title = 'Copied!';
+            setTimeout(() => {
+                e.currentTarget.title = originalTooltip;
+            }, 1500);
+        });
+    });
 
+    document.querySelectorAll('.copy-curl-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const curlExampleDiv = e.currentTarget.closest('.curl-example');
+            const curlCommand = curlExampleDiv.querySelector('.curl-command').textContent;
+            navigator.clipboard.writeText(curlCommand);
+            
             const originalTooltip = e.currentTarget.title;
             e.currentTarget.title = 'Copied!';
             setTimeout(() => {
@@ -134,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const endpointDiv = e.target.closest('.api-endpoint');
             const path = endpointDiv.dataset.path;
             const method = endpointDiv.dataset.method.toUpperCase();
-
+            
             const responseArea = endpointDiv.querySelector('.response-area');
             const responseCodeEl = endpointDiv.querySelector('.response-code');
             const responseBodyEl = endpointDiv.querySelector('.response-body code');
@@ -152,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pathParams.forEach(p => {
                 requestPath = requestPath.replace(`{${p.name}}`, p.value);
             });
-
+            
             if (method === 'POST') {
                 const fileInput = endpointDiv.querySelector('input[type="file"]');
                 const jsonTextarea = endpointDiv.querySelector('textarea[name="json-body"]');
@@ -167,11 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     body = jsonTextarea.value;
                 }
             }
-
+            
             try {
                 const response = await fetch(requestPath, { method, headers, body });
                 const responseData = await response.json();
-
+                
                 responseCodeEl.textContent = `Status: ${response.status}`;
                 responseBodyEl.textContent = JSON.stringify(responseData, null, 2);
 
