@@ -115,6 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    document.querySelectorAll('.copy-path-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const path = e.currentTarget.previousElementSibling.textContent;
+            const fullUrl = `${window.location.origin}${path}`;
+            navigator.clipboard.writeText(fullUrl);
+
+            const originalTooltip = e.currentTarget.title;
+            e.currentTarget.title = 'Copied!';
+            setTimeout(() => {
+                e.currentTarget.title = originalTooltip;
+            }, 1500);
+        });
+    });
+
     document.querySelectorAll('.execute-btn').forEach(button => {
         button.addEventListener('click', async (e) => {
             const endpointDiv = e.target.closest('.api-endpoint');

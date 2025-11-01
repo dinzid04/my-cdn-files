@@ -217,3 +217,16 @@ body.error-page { display: flex; justify-content: center; align-items: center; o
     white-space: pre-wrap;
     word-break: break-all;
 }
+
+.copy-path-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 5px;
+    box-shadow: none;
+    color: var(--subtle-text);
+}
+
+.copy-path-btn:hover {
+    color: var(--fg-color);
+}
