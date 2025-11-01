@@ -89,3 +89,76 @@ body.error-page { display: flex; justify-content: center; align-items: center; o
 .error-container { text-align: center; color: var(--fg-color); background-color: var(--card-bg); padding: 20px 30px; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 5px 5px 0px var(--accent-color); }
 .error-container img { width: 100px; height: 100px; display: block; margin: 0 auto 10px; }
 .error-container span { font-size: 16px; font-weight: bold; }
+
+.api-docs {
+    background-color: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: 5px 5px 0px var(--accent-color);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.api-docs h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.api-endpoint {
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.method {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.method-name {
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+}
+
+.method-get .method-name { background-color: #007bff; }
+.method-post .method-name { background-color: #28a745; }
+.method-put .method-name { background-color: #fd7e14; }
+.method-delete .method-name { background-color: #dc3545; }
+
+.path-name {
+    font-weight: 700;
+}
+
+.summary {
+    font-size: 12px;
+    color: var(--subtle-text);
+    margin-left: auto;
+}
+
+.details {
+    padding: 15px;
+    background-color: var(--bg-color);
+    border-top: 2px solid var(--border-color);
+}
+
+.details h4 {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.details ul {
+    list-style-position: inside;
+    padding-left: 10px;
+}
+
+.details li {
+    margin-bottom: 5px;
+}

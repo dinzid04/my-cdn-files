@@ -5,6 +5,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
+const swaggerSpec = require('./swagger');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,11 +25,6 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger');
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 function generateRandomCode(length = 4) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
@@ -39,7 +35,7 @@ function generateRandomCode(length = 4) {
 }
 
 app.get('/', (req, res) => {
-  res.render('index', { config });
+  res.render('index', { config, swaggerSpec });
 });
 
 /**
@@ -164,7 +160,7 @@ app.post('/shorten', async (req, res) => {
  *         description: Redirects to the long URL.
  *       200:
  *         description: Serves the file from the CDN.
- *       404:
+ *       4.04:
  *         description: Not found.
  */
 app.get('/:code', async (req, res) => {

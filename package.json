@@ -12,7 +12,6 @@
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "formidable": "^3.5.1",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-jsdoc": "^6.2.8"
   }
 }
