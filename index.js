@@ -24,6 +24,11 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 function generateRandomCode(length = 4) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
@@ -37,6 +42,36 @@ app.get('/', (req, res) => {
   res.render('index', { config });
 });
 
+/**
+ * @swagger
+ * /upload:
+ *   post:
+ *     summary: Upload a file to the CDN.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: The URL of the uploaded file.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 url:
+ *                   type: string
+ *       400:
+ *         description: File upload failed.
+ *       500:
+ *         description: Failed to upload file.
+ */
 app.post('/upload', async (req, res) => {
   const form = formidable({});
   form.parse(req, async (err, fields, files) => {
@@ -59,6 +94,37 @@ app.post('/upload', async (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * /shorten:
+ *   post:
+ *     summary: Shorten a URL.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               longUrl:
+ *                 type: string
+ *               customCode:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: The shortened URL.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 url:
+ *                   type: string
+ *       400:
+ *         description: URL is required or custom code is already in use.
+ *       500:
+ *         description: Failed to shorten URL.
+ */
 app.post('/shorten', async (req, res) => {
   const { longUrl, customCode } = req.body;
   if (!longUrl) return res.status(400).json({ error: 'URL is required.' });
@@ -82,6 +148,25 @@ app.post('/shorten', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /{code}:
+ *   get:
+ *     summary: Redirect to a long URL or serve a file from the CDN.
+ *     parameters:
+ *       - in: path
+ *         name: code
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       302:
+ *         description: Redirects to the long URL.
+ *       200:
+ *         description: Serves the file from the CDN.
+ *       404:
+ *         description: Not found.
+ */
 app.get('/:code', async (req, res) => {
   const { code } = req.params;
   try {
