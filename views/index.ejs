@@ -46,8 +46,8 @@
         <div class="api-docs">
             <h2>API Documentation</h2>
             <% for (const path in swaggerSpec.paths) { %>
-                <div class="api-endpoint">
-                    <% for (const method in swaggerSpec.paths[path]) { %>
+                <% for (const method in swaggerSpec.paths[path]) { %>
+                    <div class="api-endpoint" data-path="<%= path %>" data-method="<%= method %>">
                         <div class="method method-<%= method %>">
                             <span class="method-name"><%= method.toUpperCase() %></span>
                             <span class="path-name"><%= path %></span>
@@ -82,9 +82,40 @@
                                     </ul>
                                 <% } %>
                             <% } %>
+                            <button class="try-it-out-btn">Try it out</button>
+                            <div class="try-it-out-section">
+                                <h5>Parameters</h5>
+                                <div class="try-it-out-inputs">
+                                    <% if (swaggerSpec.paths[path][method].parameters) { %>
+                                        <% swaggerSpec.paths[path][method].parameters.forEach(param => { %>
+                                            <input type="text" class="api-input" name="<%= param.name %>" placeholder="<%= param.name %> (<%= param.in %>)">
+                                        <% }) %>
+                                    <% } %>
+                                    <% if (swaggerSpec.paths[path][method].requestBody) { %>
+                                        <% if (swaggerSpec.paths[path][method].requestBody.content['multipart/form-data']) { %>
+                                            <% const schema = swaggerSpec.paths[path][method].requestBody.content['multipart/form-data'].schema; %>
+                                            <% for (const prop in schema.properties) { %>
+                                                <label class="file-input-label"><%= prop %></label>
+                                                <input type="file" class="api-input" name="<%= prop %>">
+                                            <% } %>
+                                        <% } else if (swaggerSpec.paths[path][method].requestBody.content['application/json']) { %>
+                                            <% const schema = swaggerSpec.paths[path][method].requestBody.content['application/json'].schema; %>
+                                            <h6>Request Body (JSON)</h6>
+                                            <textarea class="api-input" name="json-body" rows="5"><%= JSON.stringify(Object.keys(schema.properties).reduce((acc, key) => ({...acc, [key]: ""}), {}), null, 2) %></textarea>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                                <button class="execute-btn">Execute</button>
+                                <div class="response-area">
+                                    <h6>Server response</h6>
+                                    <pre class="response-code"></pre>
+                                    <h6>Response body</h6>
+                                    <pre class="response-body"><code></code></pre>
+                                </div>
+                            </div>
                         </div>
-                    <% } %>
-                </div>
+                    </div>
+                <% } %>
             <% } %>
         </div>
 
