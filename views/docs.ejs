@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Docs - <%= config.siteName %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/docs.css">
+</head>
+<body>
+    <div class="docs-container">
+        <a href="/" class="back-link">&larr; Back to Home</a>
+        <h1>API Documentation</h1>
+
+        <% for (const path in swaggerSpec.paths) { %>
+            <% for (const method in swaggerSpec.paths[path]) {
+                const endpoint = swaggerSpec.paths[path][method];
+                const fullUrl = `https://cdn.dinzid.biz.id${path}`;
+                let curlCommand = `curl -X ${method.toUpperCase()} "${fullUrl}"`;
+
+                const requestBody = endpoint.requestBody;
+                let bodyType = '';
+                if (requestBody && requestBody.content) {
+                    if (requestBody.content['application/json']) {
+                        bodyType = 'json';
+                        const schema = requestBody.content['application/json'].schema;
+                        const exampleBody = JSON.stringify(Object.keys(schema.properties).reduce((acc, key) => ({...acc, [key]: "value"}), {}), null, 2);
+                        curlCommand += ` \\\n-H "Content-Type: application/json" \\\n-d '${exampleBody}'`;
+                    } else if (requestBody.content['multipart/form-data']) {
+                        bodyType = 'form';
+                        const schema = requestBody.content['multipart/form-data'].schema;
+                        const fieldName = Object.keys(schema.properties)[0] || 'file';
+                        curlCommand += ` \\\n-F "${fieldName}=@/path/to/your/file"`;
+                    }
+                }
+            %>
+            <div class="api-endpoint" data-path="<%= path %>" data-method="<%= method %>">
+                <div class="method method-<%= method %>">
+                    <span class="method-name"><%= method.toUpperCase() %></span>
+                    <span class="path-name"><%= path %></span>
+                    <span class="summary"><%= endpoint.summary %></span>
+                </div>
+                <div class="details">
+                    <% if (endpoint.parameters) { %>
+                        <h4>Parameters</h4>
+                        <ul>
+                            <% endpoint.parameters.forEach(param => { %>
+                                <li><strong><%= param.name %></strong> (<%= param.in %>): <%= param.schema.type %></li>
+                            <% }) %>
+                        </ul>
+                    <% } %>
+                    <% if (requestBody) { %>
+                        <h4>Request Body</h4>
+                        <p><code><%= Object.keys(requestBody.content)[0] %></code></p>
+                        <ul>
+                            <% const schema = Object.values(requestBody.content)[0].schema; %>
+                            <% for (const prop in schema.properties) { %>
+                                <li><strong><%= prop %></strong>: <%= schema.properties[prop].type %> <%= schema.properties[prop].format ? `(${schema.properties[prop].format})` : '' %></li>
+                            <% } %>
+                        </ul>
+                    <% } %>
+
+                    <div class="curl-example">
+                        <h4>Request Example (cURL)</h4>
+                        <pre class="curl-command"><code class="language-bash"><%= curlCommand %></code></pre>
+                        <button class="copy-curl-btn" title="Copy cURL command">
+                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 3H14.6C16.8402 3 17.9603 3 18.816 3.43597C19.5686 3.81947 20.1805 4.43139 20.564 5.18404C21 6.03969 21 7.15979 21 9.4V16.5M6.2 21H14.3C15.4201 21 15.9802 21 16.408 20.782C16.7843 20.5903 17.0903 20.2843 17.282 19.908C17.5 19.4802 17.5 18.9201 17.5 17.8V9.7C17.5 8.57989 17.5 8.01984 17.282 7.59202C17.0903 7.21569 16.7843 6.90973 16.408 6.71799C15.9802 6.5 15.4201 6.5 14.3 6.5H6.2C5.0799 6.5 4.51984 6.5 4.09202 6.71799C3.71569 6.90973 3.40973 7.21569 3.21799 7.59202C3 8.01984 3 8.57989 3 9.7V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.0799 21 6.2 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                    </div>
+
+                    <button class="try-it-out-btn">Try it out</button>
+                    <div class="try-it-out-section">
+                        <!-- ... (Try it out section remains the same) ... -->
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        <% } %>
+    </div>
+    <script src="/docs.js"></script>
+</body>
+</html>

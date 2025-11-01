@@ -1,0 +1,195 @@
+body {
+    background-color: var(--bg-color);
+}
+
+.docs-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--subtle-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+.back-link:hover {
+    color: var(--accent-color);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.api-docs {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    width: 100%;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.api-endpoint {
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.method {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.method-name {
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+}
+
+.method-get .method-name { background-color: #007bff; }
+.method-post .method-name { background-color: #28a745; }
+.method-put .method-name { background-color: #fd7e14; }
+.method-delete .method-name { background-color: #dc3545; }
+
+.path-name {
+    font-weight: 700;
+}
+
+.summary {
+    font-size: 12px;
+    color: var(--subtle-text);
+    margin-left: auto;
+}
+
+.details {
+    padding: 15px;
+    background-color: var(--bg-color);
+    border-top: 2px solid var(--border-color);
+}
+
+.details h4 {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.details ul {
+    list-style-position: inside;
+    padding-left: 10px;
+}
+
+.details li {
+    margin-bottom: 5px;
+}
+
+.try-it-out-btn {
+    margin-top: 15px;
+}
+
+.try-it-out-section {
+    display: none;
+    margin-top: 15px;
+    border-top: 2px solid var(--border-color);
+    padding-top: 15px;
+}
+
+.try-it-out-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.try-it-out-inputs input, .try-it-out-inputs textarea {
+    font-family: 'Ubuntu Mono', monospace;
+    background-color: #fff;
+    border: 2px solid var(--border-color);
+    color: var(--fg-color);
+    padding: 10px 14px;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 14px;
+}
+
+.execute-btn {
+    background-color: var(--accent-color);
+    color: var(--card-bg);
+}
+
+.response-area {
+    margin-top: 15px;
+    display: none;
+}
+
+.response-area h6 {
+    font-size: 12px;
+    color: var(--subtle-text);
+    margin-bottom: 5px;
+}
+
+.response-area pre {
+    background-color: #fff;
+    border: 2px solid var(--border-color);
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.copy-path-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 5px;
+    box-shadow: none;
+    color: var(--subtle-text);
+}
+
+.copy-path-btn:hover {
+    color: var(--fg-color);
+}
+
+.curl-example {
+    margin-top: 15px;
+    position: relative;
+}
+
+.curl-example h4 {
+    margin-bottom: 10px;
+}
+
+.curl-command {
+    background-color: #f1f3f5;
+    border-radius: 6px;
+    padding: 15px;
+    font-size: 13px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: 'Ubuntu Mono', monospace;
+}
+
+.copy-curl-btn {
+    position: absolute;
+    top: 35px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    box-shadow: none;
+    color: var(--subtle-text);
+}
+.copy-curl-btn:hover {
+    color: var(--fg-color);
+}

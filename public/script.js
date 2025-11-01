@@ -11,22 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const customCodeInput = document.getElementById('custom-code');
     const shortUrlResult = document.getElementById('shorturl-result');
 
-    function toggleSection(sectionToToggle, buttonToActivate) {
+    function switchTab(tabToShow, buttonToActivate) {
         const allSections = [cdnSection, shortUrlSection];
         const allButtons = [cdnBtn, shortUrlBtn];
-        const isOpening = !sectionToToggle.classList.contains('show');
 
         allButtons.forEach(btn => btn.classList.remove('active'));
-        allSections.forEach(sec => sec.classList.remove('show'));
+        allSections.forEach(sec => sec.classList.remove('active'));
 
-        if (isOpening) {
-            sectionToToggle.classList.add('show');
-            buttonToActivate.classList.add('active');
-        }
+        buttonToActivate.classList.add('active');
+        tabToShow.classList.add('active');
     }
 
-    cdnBtn.addEventListener('click', () => toggleSection(cdnSection, cdnBtn));
-    shortUrlBtn.addEventListener('click', () => toggleSection(shortUrlSection, shortUrlBtn));
+    cdnBtn.addEventListener('click', () => switchTab(cdnSection, cdnBtn));
+    shortUrlBtn.addEventListener('click', () => switchTab(shortUrlSection, shortUrlBtn));
 
     dropZone.addEventListener('click', () => fileInput.click());
     dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
@@ -46,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function showResult(element, text, isUrl = true) {
-        const svgIcon = `<div class="copy-icon"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 3H14.6C16.8402 3 17.9603 3 18.816 3.43597C19.5686 3.81947 20.1805 4.43139 20.564 5.18404C21 6.03969 21 7.15979 21 9.4V16.5M6.2 21H14.3C15.4201 21 15.9802 21 16.408 20.782C16.7843 20.5903 17.0903 20.2843 17.282 19.908C17.5 19.4802 17.5 18.9201 17.5 17.8V9.7C17.5 8.57989 17.5 8.01984 17.282 7.59202C17.0903 7.21569 16.7843 6.90973 16.408 6.71799C15.9802 6.5 15.4201 6.5 14.3 6.5H6.2C5.0799 6.5 4.51984 6.5 4.09202 6.71799C3.71569 6.90973 3.40973 7.21569 3.21799 7.59202C3 8.01984 3 8.57989 3 9.7V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.0799 21 6.2 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
+        const svgIcon = `<div class="copy-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 3H14.6C16.8402 3 17.9603 3 18.816 3.43597C19.5686 3.81947 20.1805 4.43139 20.564 5.18404C21 6.03969 21 7.15979 21 9.4V16.5M6.2 21H14.3C15.4201 21 15.9802 21 16.408 20.782C16.7843 20.5903 17.0903 20.2843 17.282 19.908C17.5 19.4802 17.5 18.9201 17.5 17.8V9.7C17.5 8.57989 17.5 8.01984 17.282 7.59202C17.0903 7.21569 16.7843 6.90973 16.408 6.71799C15.9802 6.5 15.4201 6.5 14.3 6.5H6.2C5.0799 6.5 4.51984 6.5 4.09202 6.71799C3.71569 6.90973 3.40973 7.21569 3.21799 7.59202C3 8.01984 3 8.57989 3 9.7V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.0799 21 6.2 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
         
         const textElement = isUrl 
             ? `<a href="${text}" target="_blank" rel="noopener noreferrer" class="result-url">${text}</a>` 
@@ -56,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         element.classList.add('visible');
         
         const content = element.querySelector('.result-area-content');
-        if (isUrl && content) {
+        if (content) {
             content.onclick = (e) => {
                 if (e.target.tagName === 'A') return;
                 if (content.classList.contains('copied')) return;
@@ -103,96 +100,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     shortenBtn.addEventListener('click', handleShortenUrl);
-
-    // API Docs Interaction
-    document.querySelectorAll('.try-it-out-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const details = e.target.closest('.details');
-            const tryItOutSection = details.querySelector('.try-it-out-section');
-            const isVisible = tryItOutSection.style.display === 'block';
-            tryItOutSection.style.display = isVisible ? 'none' : 'block';
-            e.target.textContent = isVisible ? 'Try it out' : 'Cancel';
-        });
-    });
-
-    document.querySelectorAll('.copy-path-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const path = e.currentTarget.previousElementSibling.textContent;
-            const fullUrl = `${window.location.origin}${path}`;
-            navigator.clipboard.writeText(fullUrl);
-            
-            const originalTooltip = e.currentTarget.title;
-            e.currentTarget.title = 'Copied!';
-            setTimeout(() => {
-                e.currentTarget.title = originalTooltip;
-            }, 1500);
-        });
-    });
-
-    document.querySelectorAll('.copy-curl-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const curlExampleDiv = e.currentTarget.closest('.curl-example');
-            const curlCommand = curlExampleDiv.querySelector('.curl-command').textContent;
-            navigator.clipboard.writeText(curlCommand);
-            
-            const originalTooltip = e.currentTarget.title;
-            e.currentTarget.title = 'Copied!';
-            setTimeout(() => {
-                e.currentTarget.title = originalTooltip;
-            }, 1500);
-        });
-    });
-
-    document.querySelectorAll('.execute-btn').forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const endpointDiv = e.target.closest('.api-endpoint');
-            const path = endpointDiv.dataset.path;
-            const method = endpointDiv.dataset.method.toUpperCase();
-            
-            const responseArea = endpointDiv.querySelector('.response-area');
-            const responseCodeEl = endpointDiv.querySelector('.response-code');
-            const responseBodyEl = endpointDiv.querySelector('.response-body code');
-
-            responseCodeEl.textContent = 'Fetching...';
-            responseBodyEl.textContent = '';
-            responseArea.style.display = 'block';
-
-            let requestPath = path;
-            const inputs = endpointDiv.querySelectorAll('.api-input');
-            let body;
-            const headers = {};
-
-            const pathParams = Array.from(inputs).filter(i => i.placeholder && i.placeholder.includes('(path)'));
-            pathParams.forEach(p => {
-                requestPath = requestPath.replace(`{${p.name}}`, p.value);
-            });
-            
-            if (method === 'POST') {
-                const fileInput = endpointDiv.querySelector('input[type="file"]');
-                const jsonTextarea = endpointDiv.querySelector('textarea[name="json-body"]');
-
-                if (fileInput) { // multipart/form-data
-                    body = new FormData();
-                    if (fileInput.files[0]) {
-                        body.append(fileInput.name, fileInput.files[0]);
-                    }
-                } else if (jsonTextarea) { // application/json
-                    headers['Content-Type'] = 'application/json';
-                    body = jsonTextarea.value;
-                }
-            }
-            
-            try {
-                const response = await fetch(requestPath, { method, headers, body });
-                const responseData = await response.json();
-                
-                responseCodeEl.textContent = `Status: ${response.status}`;
-                responseBodyEl.textContent = JSON.stringify(responseData, null, 2);
-
-            } catch (error) {
-                responseCodeEl.textContent = 'Error';
-                responseBodyEl.textContent = error.toString();
-            }
-        });
-    });
 });

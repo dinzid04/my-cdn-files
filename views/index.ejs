@@ -6,140 +6,70 @@
     <title><%= config.siteName %></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body style="background-image: url('<%= config.backgroundImage %>')">
     <div class="main-container">
-        <div class="card">
+        <header class="profile-header">
             <div class="banner">
                 <img src="<%= config.profileBanner %>" alt="Banner">
             </div>
-            <div class="profile-content">
-                <div class="pfp-container">
-                    <img class="pfp" src="<%= config.profilePicture %>" alt="Profile Picture">
-                </div>
-                <div class="profile-details">
-                    <span class="site-name"><%= config.siteName %></span>
-                    <p class="about-text"><%= config.aboutText %></p>
-                </div>
-                <div class="opensource-section">
-                    <p class="opensource-title">Open Source</p>
-                    <a href="https://github.com/alip-jmbd/NefuSite.git" target="_blank" rel="noopener noreferrer" class="github-btn">
-                        <svg viewBox="0 0 1792 1792" fill="currentColor" height="18" width="18" id="github"><path d="M1664 896q0 251-146.5 451.5T1139 1625q-27 5-39.5-7t-12.5-30v-211q0-97-52-142 57-6 102.5-18t94-39 81-66.5 53-105T1386 856q0-121-79-206 37-91-8-204-28-9-81 11t-92 44l-38 24q-93-26-192-26t-192 26q-16-11-42.5-27T578 459.5 492 446q-44 113-7 204-79 85-79 206 0 85 20.5 150t52.5 105 80.5 67 94 39 102.5 18q-40 36-49 103-21 10-45 15t-57 5-65.5-21.5T484 1274q-19-32-48.5-52t-49.5-24l-20-3q-21 0-29 4.5t-5 11.5 9 14 13 12l7 5q22 10 43.5 38t31.5 51l10 23q13 38 44 61.5t67 30 69.5 7 55.5-3.5l23-4q0 38 .5 89t.5 54q0 18-13 30t-40 7q-232-77-378.5-277.5T128 896q0-209 103-385.5T510.5 231 896 128t385.5 103T1561 510.5 1664 896z"></path></svg>
+            <div class="profile-info">
+                <img class="pfp" src="<%= config.profilePicture %>" alt="Profile Picture">
+                <h1 class="site-name"><%= config.siteName %></h1>
+                <p class="about-text"><%= config.aboutText %></p>
+                 <div class="header-buttons">
+                    <a href="https://github.com/alip-jmbd/NefuSite.git" target="_blank" rel="noopener noreferrer" class="header-btn github-btn">
+                        <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                         <span>GitHub</span>
                     </a>
-                </div>
-                <div class="actions">
-                    <button id="cdnBtn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                        CDN
-                    </button>
-                    <button id="shortUrlBtn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"/></svg>
-                        ShortURL
-                    </button>
+                     <a href="/docs" class="header-btn docs-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                        <span>API Docs</span>
+                    </a>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div class="api-docs">
-            <h2>API Documentation</h2>
-            <% for (const path in swaggerSpec.paths) { %>
-                <% for (const method in swaggerSpec.paths[path]) { %>
-                    <div class="api-endpoint" data-path="<%= path %>" data-method="<%= method %>">
-                        <div class="method method-<%= method %>">
-                            <span class="method-name"><%= method.toUpperCase() %></span>
-                            <span class="path-name"><%= path %></span>
-                             <button class="copy-path-btn" title="Copy path">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 3H14.6C16.8402 3 17.9603 3 18.816 3.43597C19.5686 3.81947 20.1805 4.43139 20.564 5.18404C21 6.03969 21 7.15979 21 9.4V16.5M6.2 21H14.3C15.4201 21 15.9802 21 16.408 20.782C16.7843 20.5903 17.0903 20.2843 17.282 19.908C17.5 19.4802 17.5 18.9201 17.5 17.8V9.7C17.5 8.57989 17.5 8.01984 17.282 7.59202C17.0903 7.21569 16.7843 6.90973 16.408 6.71799C15.9802 6.5 15.4201 6.5 14.3 6.5H6.2C5.0799 6.5 4.51984 6.5 4.09202 6.71799C3.71569 6.90973 3.40973 7.21569 3.21799 7.59202C3 8.01984 3 8.57989 3 9.7V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.0799 21 6.2 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            </button>
-                            <span class="summary"><%= swaggerSpec.paths[path][method].summary %></span>
-                        </div>
-                        <div class="details">
-                            <% if (swaggerSpec.paths[path][method].parameters) { %>
-                                <h4>Parameters</h4>
-                                <ul>
-                                    <% swaggerSpec.paths[path][method].parameters.forEach(param => { %>
-                                        <li><strong><%= param.name %></strong> (<%= param.in %>): <%= param.schema.type %></li>
-                                    <% }) %>
-                                </ul>
-                            <% } %>
-                            <% if (swaggerSpec.paths[path][method].requestBody) { %>
-                                <h4>Request Body</h4>
-                                <% if (swaggerSpec.paths[path][method].requestBody.content['multipart/form-data']) { %>
-                                    <p><code>multipart/form-data</code></p>
-                                    <ul>
-                                        <% const schema = swaggerSpec.paths[path][method].requestBody.content['multipart/form-data'].schema; %>
-                                        <% for (const prop in schema.properties) { %>
-                                            <li><strong><%= prop %></strong>: <%= schema.properties[prop].type %> (<%= schema.properties[prop].format %>)</li>
-                                        <% } %>
-                                    </ul>
-                                <% } else if (swaggerSpec.paths[path][method].requestBody.content['application/json']) { %>
-                                    <p><code>application/json</code></p>
-                                    <ul>
-                                        <% const schema = swaggerSpec.paths[path][method].requestBody.content['application/json'].schema; %>
-                                        <% for (const prop in schema.properties) { %>
-                                            <li><strong><%= prop %></strong>: <%= schema.properties[prop].type %></li>
-                                        <% } %>
-                                    </ul>
-                                <% } %>
-                            <% } %>
-                            <button class="try-it-out-btn">Try it out</button>
-                            <div class="try-it-out-section">
-                                <h5>Parameters</h5>
-                                <div class="try-it-out-inputs">
-                                    <% if (swaggerSpec.paths[path][method].parameters) { %>
-                                        <% swaggerSpec.paths[path][method].parameters.forEach(param => { %>
-                                            <input type="text" class="api-input" name="<%= param.name %>" placeholder="<%= param.name %> (<%= param.in %>)">
-                                        <% }) %>
-                                    <% } %>
-                                    <% if (swaggerSpec.paths[path][method].requestBody) { %>
-                                        <% if (swaggerSpec.paths[path][method].requestBody.content['multipart/form-data']) { %>
-                                            <% const schema = swaggerSpec.paths[path][method].requestBody.content['multipart/form-data'].schema; %>
-                                            <% for (const prop in schema.properties) { %>
-                                                <label class="file-input-label"><%= prop %></label>
-                                                <input type="file" class="api-input" name="<%= prop %>">
-                                            <% } %>
-                                        <% } else if (swaggerSpec.paths[path][method].requestBody.content['application/json']) { %>
-                                            <% const schema = swaggerSpec.paths[path][method].requestBody.content['application/json'].schema; %>
-                                            <h6>Request Body (JSON)</h6>
-                                            <textarea class="api-input" name="json-body" rows="5"><%= JSON.stringify(Object.keys(schema.properties).reduce((acc, key) => ({...acc, [key]: ""}), {}), null, 2) %></textarea>
-                                        <% } %>
-                                    <% } %>
-                                </div>
-                                <button class="execute-btn">Execute</button>
-                                <div class="response-area">
-                                    <h6>Server response</h6>
-                                    <pre class="response-code"></pre>
-                                    <h6>Response body</h6>
-                                    <pre class="response-body"><code></code></pre>
-                                </div>
-                            </div>
-                        </div>
+        <main class="tool-tabs">
+            <div class="tab-buttons">
+                <button id="cdnBtn" class="tab-btn active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                    CDN
+                </button>
+                <button id="shortUrlBtn" class="tab-btn">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"/></svg>
+                    ShortURL
+                </button>
+            </div>
+
+            <div id="cdn-section" class="tool-section active">
+                <p class="tool-description">Supports all mimetypes, from images to executables.</p>
+                <div id="drop-zone" class="drop-zone">
+                    <div class="drop-zone-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m16 16-4-4-4 4"></path></svg>
                     </div>
-                <% } %>
-            <% } %>
-        </div>
+                    <p class="drop-zone-text"><span>Click to upload</span> or drag and drop</p>
+                    <p class="drop-zone-subtext">Max file size: 100MB</p>
+                    <input type="file" id="file-input" style="display: none;">
+                </div>
+                <div id="cdn-result" class="result-area"></div>
+            </div>
 
-        <div id="cdn-section" class="tool-section">
-            <p class="tool-description">Supports all mimetypes, from images to executables.</p>
-            <div id="drop-zone" class="drop-zone">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                <span>Click or Drag File Here</span>
-                <input type="file" id="file-input" style="display: none;">
+            <div id="shorturl-section" class="tool-section">
+                <p class="tool-description">Enter a long URL to make it short. Custom code is optional.</p>
+                <div class="input-group">
+                    <input type="text" id="long-url" placeholder="https://example.com/very/long/url/to/shorten">
+                    <input type="text" id="custom-code" placeholder="Custom code (optional)">
+                </div>
+                <button id="shorten-btn" class="action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 5-6 6"></path><path d="m13 5 4 4"></path><path d="m3 21 6-6"></path><path d="m14 14 4 4"></path><path d="m21 3-6 6"></path></svg>
+                    <span>Shorten URL</span>
+                </button>
+                <div id="shorturl-result" class="result-area"></div>
             </div>
-            <div id="cdn-result" class="result-area"></div>
-        </div>
-        <div id="shorturl-section" class="tool-section">
-            <p class="tool-description">Enter a long URL to make it short. Custom code is optional.</p>
-            <div class="input-group">
-                <input type="text" id="long-url" placeholder="Enter long URL">
-                <input type="text" id="custom-code" placeholder="Custom code (optional)">
-                <button id="shorten-btn">Shorten</button>
-            </div>
-            <div id="shorturl-result" class="result-area"></div>
-        </div>
+        </main>
     </div>
     <script src="/script.js"></script>
 </body>

@@ -36,7 +36,11 @@ function generateRandomCode(length = 4) {
 
 app.get('/', (req, res) => {
   const extendedConfig = { ...config, appDomain: APP_DOMAIN };
-  res.render('index', { config: extendedConfig, swaggerSpec });
+  res.render('index', { config: extendedConfig });
+});
+
+app.get('/docs', (req, res) => {
+  res.render('docs', { config, swaggerSpec });
 });
 
 /**
