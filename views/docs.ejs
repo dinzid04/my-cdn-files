@@ -18,19 +18,16 @@
         <% for (const path in swaggerSpec.paths) { %>
             <% for (const method in swaggerSpec.paths[path]) {
                 const endpoint = swaggerSpec.paths[path][method];
-                const fullUrl = `https://cdn.dinzid.biz.id${path}`;
+                const fullUrl = `${config.appDomain}${path}`;
                 let curlCommand = `curl -X ${method.toUpperCase()} "${fullUrl}"`;
 
                 const requestBody = endpoint.requestBody;
-                let bodyType = '';
                 if (requestBody && requestBody.content) {
                     if (requestBody.content['application/json']) {
-                        bodyType = 'json';
                         const schema = requestBody.content['application/json'].schema;
                         const exampleBody = JSON.stringify(Object.keys(schema.properties).reduce((acc, key) => ({...acc, [key]: "value"}), {}), null, 2);
                         curlCommand += ` \\\n-H "Content-Type: application/json" \\\n-d '${exampleBody}'`;
                     } else if (requestBody.content['multipart/form-data']) {
-                        bodyType = 'form';
                         const schema = requestBody.content['multipart/form-data'].schema;
                         const fieldName = Object.keys(schema.properties)[0] || 'file';
                         curlCommand += ` \\\n-F "${fieldName}=@/path/to/your/file"`;
@@ -73,7 +70,34 @@
 
                     <button class="try-it-out-btn">Try it out</button>
                     <div class="try-it-out-section">
-                        <!-- ... (Try it out section remains the same) ... -->
+                        <h5>Parameters</h5>
+                        <div class="try-it-out-inputs">
+                            <% if (endpoint.parameters) { %>
+                                <% endpoint.parameters.forEach(param => { %>
+                                    <input type="text" class="api-input" name="<%= param.name %>" placeholder="<%= param.name %> (<%= param.in %>)">
+                                <% }) %>
+                            <% } %>
+                            <% if (requestBody) { %>
+                                <% if (requestBody.content['multipart/form-data']) { %>
+                                    <% const schema = requestBody.content['multipart/form-data'].schema; %>
+                                    <% for (const prop in schema.properties) { %>
+                                        <label class="file-input-label"><%= prop %></label>
+                                        <input type="file" class="api-input" name="<%= prop %>">
+                                    <% } %>
+                                <% } else if (requestBody.content['application/json']) { %>
+                                    <% const schema = requestBody.content['application/json'].schema; %>
+                                    <h6>Request Body (JSON)</h6>
+                                    <textarea class="api-input" name="json-body" rows="5"><%= JSON.stringify(Object.keys(schema.properties).reduce((acc, key) => ({...acc, [key]: ""}), {}), null, 2) %></textarea>
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <button class="execute-btn">Execute</button>
+                        <div class="response-area">
+                            <h6>Server response</h6>
+                            <pre class="response-code"></pre>
+                            <h6>Response body</h6>
+                            <pre class="response-body"><code></code></pre>
+                        </div>
                     </div>
                 </div>
             </div>

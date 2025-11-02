@@ -7,6 +7,7 @@ body {
     max-width: 800px;
     margin: 40px auto;
     padding: 0 20px;
+    animation: fadeIn 0.5s ease-out;
 }
 
 .back-link {
@@ -15,6 +16,7 @@ body {
     color: var(--subtle-text);
     text-decoration: none;
     font-weight: 500;
+    transition: var(--slow-transition);
 }
 .back-link:hover {
     color: var(--accent-color);
@@ -25,36 +27,33 @@ h1 {
     margin-bottom: 30px;
 }
 
-.api-docs {
+.api-endpoint {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    width: 100%;
-    box-shadow: 0 4px 12px var(--shadow-color);
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.api-endpoint {
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--slow-transition);
+}
+.api-endpoint:hover {
+    box-shadow: var(--shadow-md);
 }
 
 .method {
-    padding: 10px;
+    padding: 12px 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .method-name {
     font-weight: 700;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 4px 10px;
+    border-radius: 6px;
     color: white;
+    font-size: 14px;
 }
 
 .method-get .method-name { background-color: #007bff; }
@@ -64,23 +63,25 @@ h1 {
 
 .path-name {
     font-weight: 700;
+    font-family: 'Ubuntu Mono', monospace;
 }
 
 .summary {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--subtle-text);
     margin-left: auto;
 }
 
 .details {
-    padding: 15px;
-    background-color: var(--bg-color);
-    border-top: 2px solid var(--border-color);
+    padding: 16px;
+    background-color: #fbfcfd;
+    border-top: 1px solid var(--border-color);
 }
 
 .details h4 {
+    margin-top: 10px;
     margin-bottom: 10px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .details ul {
@@ -90,106 +91,124 @@ h1 {
 
 .details li {
     margin-bottom: 5px;
+    color: var(--subtle-text);
+}
+.details li strong {
+    color: var(--fg-color);
 }
 
-.try-it-out-btn {
-    margin-top: 15px;
+.try-it-out-btn, .execute-btn {
+    font-family: var(--font-family);
+    font-size: 14px;
+    color: var(--fg-color);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    transition: var(--slow-transition);
+    box-shadow: var(--shadow-sm);
+    margin-top: 16px;
 }
+.try-it-out-btn:hover, .execute-btn:hover {
+    background-color: var(--bg-color);
+    border-color: #adb5bd;
+}
+.execute-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
+}
+.execute-btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
 
 .try-it-out-section {
     display: none;
-    margin-top: 15px;
-    border-top: 2px solid var(--border-color);
-    padding-top: 15px;
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
 }
 
 .try-it-out-inputs {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 12px;
+    margin-bottom: 16px;
 }
 
 .try-it-out-inputs input, .try-it-out-inputs textarea {
     font-family: 'Ubuntu Mono', monospace;
     background-color: #fff;
-    border: 2px solid var(--border-color);
+    border: 1px solid var(--border-color);
     color: var(--fg-color);
     padding: 10px 14px;
     border-radius: 6px;
     width: 100%;
     font-size: 14px;
+    box-shadow: var(--shadow-sm);
 }
-
-.execute-btn {
-    background-color: var(--accent-color);
-    color: var(--card-bg);
+.try-it-out-inputs input:focus, .try-it-out-inputs textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
 .response-area {
-    margin-top: 15px;
+    margin-top: 20px;
     display: none;
 }
 
 .response-area h6 {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--subtle-text);
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .response-area pre {
     background-color: #fff;
-    border: 2px solid var(--border-color);
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 12px;
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
     white-space: pre-wrap;
     word-break: break-all;
-}
-
-.copy-path-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0 5px;
-    box-shadow: none;
-    color: var(--subtle-text);
-}
-
-.copy-path-btn:hover {
-    color: var(--fg-color);
+    box-shadow: var(--shadow-sm);
 }
 
 .curl-example {
-    margin-top: 15px;
+    margin-top: 20px;
     position: relative;
-}
-
-.curl-example h4 {
-    margin-bottom: 10px;
 }
 
 .curl-command {
     background-color: #f1f3f5;
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 15px;
     font-size: 13px;
     white-space: pre-wrap;
     word-break: break-all;
     font-family: 'Ubuntu Mono', monospace;
+    border: 1px solid var(--border-color);
 }
 
 .copy-curl-btn {
     position: absolute;
-    top: 35px;
-    right: 10px;
+    top: 48px;
+    right: 12px;
     background: none;
     border: none;
     cursor: pointer;
     padding: 5px;
     box-shadow: none;
     color: var(--subtle-text);
+    border-radius: 6px;
+    transition: var(--slow-transition);
 }
 .copy-curl-btn:hover {
     color: var(--fg-color);
+    background-color: rgba(0,0,0,0.05);
 }

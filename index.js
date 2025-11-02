@@ -40,7 +40,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/docs', (req, res) => {
-  res.render('docs', { config, swaggerSpec });
+  const extendedConfig = { ...config, appDomain: APP_DOMAIN };
+  res.render('docs', { config: extendedConfig, swaggerSpec });
 });
 
 /**
